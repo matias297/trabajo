@@ -1,0 +1,72 @@
+<style>
+  body {
+    background-color: #aab3e9;
+  }
+</style>
+<form class="container">
+  <div class="mb-3 form-group">
+    <h2 style="margin-top: 30px;">Registrarse </h2>
+  </div>
+  <div class="mb-3 form-group">
+    <label for="emailRegister" class="form-label">Email</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="email"
+      class="form-control"
+      id="emailRegister"
+      placeholder="Ingrese un nombre de usuario"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="nombreRegister" class="form-label">Ingrese su nombre</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="nombreRegister"
+      placeholder="Ingrese su nombre"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="apellidoRegister" class="form-label">Ingrese su apellido</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="apellidoRegister"
+      placeholder="Ingrese su apellido"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="dniRegister" class="form-label">Ingrese su DNI</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="number"
+      class="form-control"
+      id="dniRegister"
+      placeholder="Ingrese su DNI"
+      max= "10000000"
+      min= "100000"
+      required
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="passwordRegister" class="form-label">Ingrese una contraseña</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="password"
+      class="form-control"
+      id="passwordRegister"
+      placeholder="Contraseña"
+    />
+  </div>
+  </div>
+  <div class="mb-3 form-check">
+    <input
+      type="button"
+      class="btn btn-primary"
+      value="Registrar"
+      onclick="registerAction()"
+    />
+  </div>
+</form>

@@ -1,0 +1,70 @@
+<style>
+  body {
+    background-color: #aab3e9;
+  }
+</style>
+<form class="container">
+  <div class="mb-3 form-group">
+    <h2 style="margin-top: 30px;">Añadir una película </h2>
+  </div>
+  <div class="mb-3 form-group">
+    <label for="nameMovie" class="form-label">Nombre</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="nameMovie"
+      name="usuario"
+      value=""
+      placeholder="Ingrese un nombre de película"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="durationMovie" class="form-label">Duración</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="durationMovie"
+      placeholder="Ingrese una duración"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="directorMovie" class="form-label">Director</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="directorMovie"
+      placeholder="Ingrese su director"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="genreMovie" class="form-label">Género</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="genreMovie"
+      placeholder="Ingrese su género"
+    />
+  </div>
+  <div class="mb-3 form-group">
+    <label for="languageMovie" class="form-label">Idioma</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="languageMovie"
+      placeholder="Idioma"
+    />
+  </div>
+  <div class="mb-3 form-check">
+    <input
+      type="button"
+      class="btn btn-primary"
+      value="Añadir"
+      onclick="movieaddAction()"
+    />
+  </div>
+</form>

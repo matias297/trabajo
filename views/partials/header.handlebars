@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <a onclick="" class="navbar-brand">
+      <!-- Logo  -->
+        <form action="/inicio" method="POST" class="navbar-brand" style="margin-left: 20px;">
+          <img src="/img/logo2.png" width="50" height="50" class="d-inline-block align-top" alt="">
+        </form>
+    </a>
+  <a class="navbar-brand" href="#" style="font-size: 40px; font-family:initial">Cines</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav" style="margin-left: 800px; font-weight:boldier; font-size:25px">
+    <ul class="navbar-nav">
+      <form action="/cines" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-info">Cartelera</button>
+            </div>
+      </form>
+      <form action="/admin" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Pagina de Administración</button>
+            </div>
+      </form>
+      <form action="/admin" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-danger">Cerrar Sesion</button>
+            </div>
+      </form>
+    </ul>
+  </div>
+</nav>

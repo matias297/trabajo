@@ -1,0 +1,34 @@
+<style>
+  body {
+    background-color: #aab3e9;
+  }
+</style>
+<div class="login">
+    <form action="/login" method="POST" class="container-sm">
+
+       <div class="mb-3 form-group" class="login">
+           <h2 style="margin-top: 20px;"> Ingresar</h2>
+       </div>
+       <div class="mb-3 form-group">
+           <label for="usuarioId" class="form-label" style="font-size: 20px;  font-style: italic;" >Usuario</label>
+           <input  type="text" style="width: 50%;" class="form-control" id="usuarioId" name="usuario" value="" placeholder="Ingrese un nombre de usuario">
+       </div>
+       <div class="mb-3 form-group">
+           <label for="passwordId" class="form-label" style="font-size: 20px; font-style: italic;">Password</label>
+           <input  type="password" style="width: 50%;"  class="form-control" id="passwordId" placeholder="Contraseña">
+       </div>
+       <div class="mb-3 form-check" style="margin-left: 0%;">
+           <input type="button" style="margin-left: 0px"class="btn btn-primary" value="Ingresar" onclick="validateStart()" onclick=window.location.href='/cine' style="margin-left: 0px">
+           <input type="button" style="margin-left: 20px" class="btn btn-danger" value="Registrarse" onclick=window.location.href='/register'>
+       </div>
+    </form>
+
+    <form action="/cines" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">  Ingresar</button>
+            </div>
+
+    </form>
+
+    
+</div>

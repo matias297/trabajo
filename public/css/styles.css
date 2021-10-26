@@ -1,0 +1,100 @@
+/*    .header{
+        background-color: #193498;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: #FBFBFB;
+        margin-bottom: 20px;
+
+    }
+*/    
+.container{
+	box-shadow: 0 15px 30px 1px grey;
+	background: rgba(255, 255, 255, 0.90);
+	text-align: center;
+	border-radius: 5px;
+	overflow: hidden;
+	margin: 5em auto;
+	height: 500px;
+	width: 1000px;
+	text-align: center;
+}
+
+h5 {
+    font-family: 'Imprima', sans-seri;
+    color: black;
+}
+
+h3 {
+    font-family: 'Coiny';
+    font-size: 30px;
+	color: black;
+}
+
+/* .header > h2{
+        font-size: 20px;
+        cursor: pointer;
+        font-style: italic;
+    }
+*/
+.ContenedorCines{
+    background-color: black;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.Cine{
+    color: white;
+    margin: 10px;
+    border-radius: 50px;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+.butonSelect{
+    border: none;
+    background-color: #69DADB;
+    color: white;
+    border-radius: 10px;
+    -webkit-transition: all 0.9s 0.1s linear;
+    -moz-transition: all 0.9s 0.1s linear;
+    -o-transition: all 0.9s 0.1s linear;
+    transition: all 0.9s 0.1s linear;
+}
+
+.butonSelect:hover{
+    background-color: #091353;
+    color: #D5D5D5;
+}
+
+.login {
+    border-radius: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    font: bold;
+}
+
+.login h2{
+    font-size: 40px;
+    font-family:'Times New Roman';
+    font-weight: bold;
+    font-style: italic;
+}
+
+#navbar-brand .img{
+    margin-left: 30px;
+}
+
+.container{
+    height: 700px;
+}
+
