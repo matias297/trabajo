@@ -42,13 +42,9 @@ app.listen(Listen_Port, function () {
 /* const result = await MySQL.realizarQuery("SELECT * FROM Usuarios")
 
 /*Renderizados */
-app.get("/", function (req, res) {
-  res.render("login", null); //Renderizo página "login" sin pasar ningún objeto a Handlebars
-});
 
-app.get("/register", function (req, res) {
-  res.render("register", null);
-});
+
+
 
 app.get("/cine", function (req, res) {
   res.render("cine", null);
@@ -64,12 +60,26 @@ app.get("/funciones", async function (req, res) {
   res.send("Hola")
 });
 
-/*Funciones POST */
-app.post("/login", function (req, res) {});
+/*Funciones LOGIN*/
+app.post("/login", async function (req, res) {
+  /*Capturamos los datos */
+  const { email, password } = req.body;
+  /*Hacemos consulta a la base */
+  const result = await MySQL.realizarQuery(`SELECT * FROM Usuarios WHERE mail = "${email}"`);
+  /* Validamos la contraseña */
+  if (result[0] === undefined) {
+    res.send("Usuario no existe");
+  }
+  if(result[0].pass != password){
+    res.send("Contraseña incorrecta");
+  }
+  if(result[0].pass == password){
+    res.send("Bienvenido");
+  }
+});
 
-app.post("/register", async function (req, res) {
-  const result = await MySQL.realizarQuery(`INSERT INTO Usuarios VALUES (3,"${req.body.nombre}","${apellido}","${email}","${dni}","${password}")`);
-  console.log(result)
+app.get("/", function (req, res) {
+  res.render("login", null); //Renderizo página "login" sin pasar ningún objeto a Handlebars
 });
 
 app.put("/login", function (req, res) {
@@ -78,6 +88,18 @@ app.put("/login", function (req, res) {
 });
 
 
+
+/* Register */
+app.post("/register", async function (req, res) {
+  /*Capturamos los datos */
+  const { email, password, nombre, apellido, dni } = req.body;
+  const result = await MySQL.realizarQuery(`INSERT INTO Usuarios VALUES (3,"${nombre}","${apellido}","${email}","${dni}","${password}")`);
+  res.send("Usuario registrado");
+});
+
+app.get("/register", function (req, res) {
+  res.render("register", null);
+});
 
 app.get('/peliculas', async function(req, res)
  {

@@ -1,10 +1,5 @@
 function registerAction() {
-  const email = document.getElementById("emailRegister").value;
-  const password = document.getElementById("passwordRegister").value;
-  const nombre = document.getElementById("nombreRegister").value;
-  const apellido = document.getElementById("apellidoRegister").value;
-  const dni = document.getElementById("dniRegister").value;
-  const data = {nombre, email, password, apellido, dni}
+
   const data2 = {
     email: document.getElementById("emailRegister").value,
     password: document.getElementById("passwordRegister").value,
@@ -12,9 +7,19 @@ function registerAction() {
     apellido: document.getElementById("apellidoRegister").value,
     dni: document.getElementById("dniRegister").value,
   }
-  ajax("POST", "/register", data, function(res){
-    window.location.href = "/cines"
+
+  ajax("POST", "/register", data2, function(res){
+    if(res.status === 200){
+      window.location.href = "/cines"
+    }
+    if(res.status === 400){
+      alert("Error en el registro")
+    }
+    if(res.status === 409){
+      alert("El usuario ya existe")
+    }
   })
+
 
 }
 
@@ -47,4 +52,31 @@ function isString(){
 
 function isDNI(){
 
+}
+
+
+async function validateStart(){
+  const {value : mail} = document.getElementById("usuarioId");
+  const {value : constraseña} = document.getElementById("passwordId");
+  const data = {email: mail, password: constraseña}
+  ajax("POST", "/login", data, function (res) {
+    if(res === "Bienvenido"){
+      window.location.href = "/cines"
+    }
+    if(res === "Contraseña incorrecta"){
+      alert("Contraseña incorrecta")
+    }
+    if(res == "Usuario no existe"){
+      alert("El usuario no existe")
+    }
+  });
+}
+
+async function isMail(){
+  const input = document.querySelector(".usuarioId");
+
+}
+
+async function validatePassword(){
+  
 }
