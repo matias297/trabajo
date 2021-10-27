@@ -1,5 +1,15 @@
-<div>
-    {{#each peliculas}}
-        <div>{{this.nombre}}</div>
-    {{/each}}
+<div class="ContenedorCines" style= "color: rgb(255, 0, 0);">
+  {{#each peliculas}}
+    <div class="Peliculas" id="{{this.idPeliculas}}">
+      <p>{{this.nombre}}</p>
+      <p>{{this.genero}}</p>
+      <p>{{this.duracion}}</p>
+    <form action="/horarios" method="GET" class="container-sm">
+      <div class="mb-3 form-check" style="margin-top: 20px; ">
+          <button  class="btn btn-primary">Ingresar</button>
+          <input type="hidden" value="{{this.idPeliculas}}" name="idPeliculas">
+      </div>
+    </form>
+    </div>
+  {{/each}}
 </div>

@@ -113,6 +113,13 @@ app.get("/peliculas", async function (req, res) {
   res.render("peliculas", {cines: result});
 });
 
+app.get('/horarios', async function(req, res)
+ {
+     console.log(req.query);
+  const result = await MySQL.realizarQuery("select Horarios.hora from Funciones join Horarios on Funciones.idHorarios = Horarios.idHorarios where idPeliculas = " + req.query.idPeliculas);
+     res.render('peliculas',{peliculas: result}); 
+});
+
 app.get('/admin', function(req, res)
  {
      
@@ -125,6 +132,13 @@ app.get('/adminpelicula', function(req, res)
      res.render('adminpelicula',null); 
 });
 
+app.post("/movieAdd", async function (req, res) {
+  /*Capturamos los datos */
+  const { nombre, duracion, director, genero, idioma } = req.body;
+  const result = await MySQL.realizarQuery(`INSERT INTO Peliculas VALUES (3,"${nombre}","${duracion}","${director}","${genero}","${idioma}")`);
+  res.send("Película agregada a la base de datos");
+});
+
 app.get('/admincine', function(req, res)
  {
      
@@ -135,4 +149,9 @@ app.get('/adminhorario', function(req, res)
  {
      
      res.render('adminhorario',null); 
+});
+
+
+app.get("/butacas", function (req, res) {
+  res.render("butacas", null);
 });
