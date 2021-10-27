@@ -11,7 +11,7 @@
        </div>
        <div class="mb-3 form-group">
            <label for="usuarioId" class="form-label" style="font-size: 20px;  font-style: italic;" >Usuario</label>
-           <input  type="text" style="width: 50%;" class="form-control" id="usuarioId" name="usuario" value="" placeholder="Ingrese un nombre de usuario">
+           <input  type="text" style="width: 50%;" class="form-control" id="usuarioId" name="usuario" value="" onchange="isEmail(this)" placeholder="Ingrese un nombre de usuario">
        </div>
        <div class="mb-3 form-group">
            <label for="passwordId" class="form-label" style="font-size: 20px; font-style: italic;">Password</label>
@@ -22,9 +22,9 @@
            <input type="button" style="margin-left: 20px" class="btn btn-danger" value="Registrarse" onclick=window.location.href='/register'>
        </div>
     </form>
-    <form action="/butacas" method="GET" class="container-sm">
+    <form action="/cines" method="GET" class="container-sm">
             <div class="mb-3 form-check" style="margin-top: 20px; ">
-                <button  class="btn btn-primary">Ingresar Cine</button>
+                <button  class="btn btn-primary">  Ingresar Cine</button>
             </div>
     </form>
 </div>

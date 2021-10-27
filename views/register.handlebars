@@ -14,7 +14,9 @@
       type="email"
       class="form-control"
       id="emailRegister"
-      placeholder="Ingrese un nombre de usuario"
+      placeholder="Ingrese un email"
+      onchange="isEmail(this)"
+      required="true"
     />
   </div>
   <div class="mb-3 form-group">
@@ -25,6 +27,8 @@
       class="form-control"
       id="nombreRegister"
       placeholder="Ingrese su nombre"
+      onchange="isString(this)"
+      required="true"
     />
   </div>
   <div class="mb-3 form-group">
@@ -35,6 +39,8 @@
       class="form-control"
       id="apellidoRegister"
       placeholder="Ingrese su apellido"
+      onchange="isString(this)"
+      required="true"
     />
   </div>
   <div class="mb-3 form-group">
@@ -45,9 +51,8 @@
       class="form-control"
       id="dniRegister"
       placeholder="Ingrese su DNI"
-      max= "10000000"
-      min= "100000"
-      required
+      onchange="verifyDNI(this)"
+      required="true"
     />
   </div>
   <div class="mb-3 form-group">
@@ -58,6 +63,7 @@
       class="form-control"
       id="passwordRegister"
       placeholder="Contraseña"
+      required="true"
     />
   </div>
   </div>
