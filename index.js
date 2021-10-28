@@ -47,7 +47,6 @@ app.get("/", function (req, res) {
 });
 
 app.get("/funciones", async function (req, res) {
-  console.log(req.body);
   res.send("Hola");
 });
 
@@ -92,16 +91,15 @@ app.get("/register", function (req, res) {
 
 /* PELICULAS */
 app.get("/peliculas", async function (req, res) {
-  const result = await MySQL.realizarQuery(
-    "select * from Funciones join Peliculas on Funciones.idPeliculas = Peliculas.idPeliculas where idCines = " +
-      req.query.idCine
+  var result = await MySQL.realizarQuery(
+    `SELECT * FROM Funciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE idCines = ${req.query.idCine}`
   );
+  cambiarFormatoHora(result)
   res.render("peliculas", { peliculas: result });
 });
 
 
 app.get("/horarios", async function (req, res) {
-  console.log(req.query);
   const result = await MySQL.realizarQuery(
     "select Horarios.hora from Funciones join Horarios on Funciones.idHorarios = Horarios.idHorarios where idPeliculas = " +
       req.query.idPeliculas
@@ -134,7 +132,7 @@ app.get("/admincine", function (req, res) {
 
 app.post("/cineAdd", async function (req, res) {
   /*Capturamos los datos */
-  console.log(req.query);
+;
   const { nombre, barrio, direccion } = req.body;
   const result = await MySQL.realizarQuery(
     `INSERT INTO Cines VALUES (0, "${nombre}","${barrio}","${direccion}")`
@@ -148,7 +146,6 @@ app.get("/adminhorario", function (req, res) {
 
 app.post("/horarioAdd", async function (req, res) {
   /*Capturamos los datos */
-  console.log(req.query);
   const { hora } = req.body;
   const result = await MySQL.realizarQuery(
     `INSERT INTO Horarios VALUES (0, '2020-01-01 ${hora}:00:00');`
@@ -170,3 +167,13 @@ app.get("/cines", async function (req, res) {
   const result = await MySQL.realizarQuery("SELECT * FROM Cines");
   res.render("cine", { cines: result });
 });
+
+
+const cambiarFormatoHora = (peliculas) =>  {
+  const pelicuasNuevoHora = peliculas.map((pelicula) => {
+    const nuevoFormato = pelicula.hora.toString().split(" ");
+    pelicula.hora = nuevoFormato[4];
+  })
+
+  return pelicuasNuevoHora;
+}

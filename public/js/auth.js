@@ -68,22 +68,31 @@ function verifyDNI(input){
 
 /* Login */
 async function validateStart() {
-  const { value: mail } = document.getElementById("usuarioId");
-  const { value: constraseña } = document.getElementById("passwordId");
-  const data = { email: mail, password: constraseña };
-  ajax("POST", "/login", data, function (res) {
-    if (res === "Bienvenido") {
-      window.location.href = "/cine";
-    }
-    if (res === "Contraseña incorrecta") {
-      alert("Contraseña incorrecta");
-    }
-    if (res == "Usuario no existe") {
-      alert("El usuario no existe");
-    }
-  });
+  if(inputNotNull()){
+    
+    const { value: mail } = document.getElementById("usuarioId");
+    const { value: constraseña } = document.getElementById("passwordId");
+    const data = { email: mail, password: constraseña };
+    ajax("POST", "/login", data, function (res) {
+      if (res === "Bienvenido") {
+        window.location.href = "/cine";
+      }
+      if (res === "Contraseña incorrecta") {
+        alert("Contraseña incorrecta");
+      }
+      if (res == "Usuario no existe") {
+        alert("El usuario no existe");
+      }
+    });
+  }else{
+    alert("No puede haber campos vacios")
+  }
 }
 
+async function inputNotNull(){
+  return false;
+  return true;
+}
 
 /* Otras utilidades */
 function pintarBordeEnRojo(input) {
