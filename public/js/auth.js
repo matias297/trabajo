@@ -1,23 +1,34 @@
-function registerAction() {
-  const data2 = {
-    email: document.getElementById("emailRegister").value,
-    password: document.getElementById("passwordRegister").value,
-    nombre: document.getElementById("nombreRegister").value,
-    apellido: document.getElementById("apellidoRegister").value,
-    dni: document.getElementById("dniRegister").value,
-  };
-
-  ajax("POST", "/register", data2, function (res) {
-    if (res.status === 200) {
-      window.location.href = "/cines";
-    }
-    if (res.status === 400) {
-      alert("Error en el registro");
-    }
-    if (res.status === 409) {
-      alert("El usuario ya existe");
-    }
-  });
+async function registerAction() {
+  const data2 = [
+    (email = document.getElementById("emailRegister").value),
+    (password = document.getElementById("passwordRegister").value),
+    (nombre = document.getElementById("nombreRegister").value),
+    (apellido = document.getElementById("apellidoRegister").value),
+    (dni = document.getElementById("dniRegister").value),
+  ];
+  if (await inputNotNull(data2)) {
+    const senData = {
+      email : document.getElementById("emailRegister").value,
+      password : document.getElementById("passwordRegister").value,
+      nombre : document.getElementById("nombreRegister").value,
+      apellido : document.getElementById("apellidoRegister").value,
+      dni : document.getElementById("dniRegister").value,
+    };
+    
+    ajax("POST", "/register", senData, function (res) {
+      if (res.status === 200) {
+        window.location.href = "/cines";
+      }
+      if (res.status === 400) {
+        alert("Error en el registro");
+      }
+      if (res.status === 409) {
+        alert("El usuario ya existe");
+      }
+    });
+  } else {
+    alert("Error en el registro");
+  }
 }
 
 /*Validamos formato tipo email */
@@ -50,30 +61,37 @@ function isEmail(inputEmail) {
 
 /* Verificamos que los valores del input sean Letras */
 function isString(input) {
-  if (isNaN(Number((input.value)))){
+  if (isNaN(Number(input.value))) {
     pintarBorderEnGris(input);
   } else {
     pintarBordeEnRojo(input);
-    return false
+    return false;
   }
 }
 
 /* Limitamos Input de DNI */
-function verifyDNI(input){
+function verifyDNI(input) {
   if (input.value.length > 8) {
-    input.value = input.value.slice(0,8); 
+    input.value = input.value.slice(0, 8);
   }
 }
 
+function validatePassword(input) {
+  console.log(input.value.length);
+  if (input.value.length < 7) {
+    input.style.borderColor = "red";
+  }
+}
 
 /* Login */
 async function validateStart() {
-  if(inputNotNull()){
-    
-    const { value: mail } = document.getElementById("usuarioId");
-    const { value: constraseña } = document.getElementById("passwordId");
-    const data = { email: mail, password: constraseña };
-    ajax("POST", "/login", data, function (res) {
+  const data = [
+    email = document.getElementById("usuarioId").value,
+    password = document.getElementById("passwordId").value,
+  ];
+  if (await inputNotNull(data)) {
+    const sendData = { email: data[0], password: data[1] };
+    ajax("POST", "/login", sendData, function (res) {
       if (res === "Bienvenido") {
         window.location.href = "/cine";
       }
@@ -84,13 +102,18 @@ async function validateStart() {
         alert("El usuario no existe");
       }
     });
-  }else{
-    alert("No puede haber campos vacios")
+  } else {
+    alert("No puede haber campos vacios");
   }
 }
 
-async function inputNotNull(){
-  return false;
+async function inputNotNull(inputs) {
+  inputs.map((input) => {
+    console.log(input.length === 0);
+    if (input.length === 0) {
+      return false;
+    }
+  });
   return true;
 }
 
