@@ -1,14 +1,29 @@
-<form action="/login" method="GET" class="container-sm">
-    
-    <h2>Pantalla de Administración</h2>
-    <h4>Añadir un horario</h4>
-    <p></p>
-    
-    <p>Horario</p>
-    <input class="form-control" type="text" >
-    <p></p>
-    
-    <button type="button" class="btn btn-primary">Añadir</button>
-    <p></p>
-    
+<style>
+  body {
+    background-color: #aab3e9;
+  }
+</style>
+<form class="container">
+  <div class="mb-3 form-group">
+    <h2 style="margin-top: 30px;">Añadir un horario </h2>
+  </div>
+  <div class="mb-3 form-group">
+    <label for="nameHorario" class="form-label">Horario</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="nameHorario"
+      name="usuario"
+      value=""
+      placeholder="Ingrese un horario"
+    />
+  <div class="mb-3 form-check">
+    <input
+      type="button"
+      class="btn btn-primary"
+      value="Añadir"
+      onclick="horarioaddAction()"
+    />
+  </div>
 </form>

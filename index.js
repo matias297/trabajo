@@ -89,6 +89,7 @@ app.post("/register", async function (req, res) {
 app.get("/register", function (req, res) {
   res.render("register", null);
 });
+
 /* PELICULAS */
 app.get("/peliculas", async function (req, res) {
   const result = await MySQL.realizarQuery(
@@ -107,6 +108,8 @@ app.get("/horarios", async function (req, res) {
   );
   res.render("peliculas", { peliculas: result });
 });
+
+
 /* ADMIN */
 app.get("/admin", function (req, res) {
   res.render("admin", null);
@@ -116,12 +119,11 @@ app.get("/adminpelicula", function (req, res) {
   res.render("adminpelicula", null);
 });
 
-/*admin/peliculas */
 app.post("/movieAdd", async function (req, res) {
   /*Capturamos los datos */
   const { nombre, duracion, director, genero, idioma } = req.body;
   const result = await MySQL.realizarQuery(
-    `INSERT INTO Peliculas VALUES (0,"${nombre}","${duracion}","${director}","${genero}","${idioma}")`
+    `INSERT INTO Peliculas VALUES (0, "${nombre}","${duracion}","${director}","${genero}","${idioma}")`
   );
   res.send("Película agregada a la base de datos");
 });
@@ -130,8 +132,28 @@ app.get("/admincine", function (req, res) {
   res.render("admincine", null);
 });
 
+app.post("/cineAdd", async function (req, res) {
+  /*Capturamos los datos */
+  console.log(req.query);
+  const { nombre, barrio, direccion } = req.body;
+  const result = await MySQL.realizarQuery(
+    `INSERT INTO Cines VALUES (0, "${nombre}","${barrio}","${direccion}")`
+  );
+  res.send("Cine agregado a la base de datos");
+});
+
 app.get("/adminhorario", function (req, res) {
   res.render("adminhorario", null);
+});
+
+app.post("/horarioAdd", async function (req, res) {
+  /*Capturamos los datos */
+  console.log(req.query);
+  const { hora } = req.body;
+  const result = await MySQL.realizarQuery(
+    `INSERT INTO Horarios VALUES (0, '2020-01-01 ${hora}:00:00');`
+    );
+    res.send("Horario agregado a la base de datos");
 });
 
 /* Butacas */

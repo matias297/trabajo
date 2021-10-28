@@ -1,14 +1,54 @@
-<form action="/login" method="GET" class="container-sm">
-    
-    <h2>Pantalla de Administración</h2>
-    <h4>Añadir una cine</h4>
-    <p></p>
-    
-    <p>Cine</p>
-    <input class="form-control" type="text" >
-    <p></p>
-    
-    <button type="button" class="btn btn-primary">Añadir</button>
-    <p></p>
-    
+<style>
+  body {
+    background-color: #aab3e9;
+  }
+</style>
+<form class="container">
+  <div class="mb-3 form-group">
+    <h2 style="margin-top: 30px;">Añadir un cine </h2>
+  </div>
+  <div class="mb-3 form-group">
+    <label for="nameCine" class="form-label">Nombre del Cine</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="nameCine"
+      name="usuario"
+      value=""
+      placeholder="Ingrese un nombre de un cine"
+    />
+  </div>
+    <div class="mb-3 form-group">
+    <label for="barrioCine" class="form-label">Barrio</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="barrioCine"
+      name="usuario"
+      value=""
+      placeholder="Ingrese un nombre de un cine"
+    />
+  </div>
+    <div class="mb-3 form-group">
+    <label for="nameCine" class="form-label">Dirección</label>
+    <input
+      style="width: 500px; margin-left:30%"
+      type="text"
+      class="form-control"
+      id="direccionCine"
+      name="usuario"
+      value=""
+      placeholder="Ingrese un nombre de un cine"
+    />
+  </div>
+  <div class="mb-3 form-check">
+    <input
+      type="button"
+      class="btn btn-primary"
+      value="Añadir"
+      onclick="cineaddAction()"
+    />
+  </div>
 </form>
