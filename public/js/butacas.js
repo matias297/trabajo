@@ -1,71 +1,34 @@
-const container = document.querySelector(".container");
-const seats = document.querySelectorAll(".row .seat:not(.occupied)");
-const count = document.getElementById("count");
-const total = document.getElementById("total");
-const movieSelect = document.getElementById("movie");
-
-populateUI();
-
-let ticketPrice = +movieSelect.value;
-
-// save selected movie index & price
-function setMovieData(movieIndex, moviePrice) {
-  localStorage.setItem("selectedMovieIndex", movieIndex);
-  localStorage.setItem("selectedMoviePrice", moviePrice);
+const selectButaca = async (input, asiento) => {
+  input.className = input.className === "noSelect" ? "Select" : "noSelect";
 }
 
-// Update total and count
-function updateSelectedCount() {
-  const selectedSeats = document.querySelectorAll(".row .seat.selected");
-
-  const seatsIndex = [...selectedSeats].map(seat => [...seats].indexOf(seat));
-
-  localStorage.setItem("selectedSeats", JSON.stringify(seatsIndex));
-
-  const selectedSeatsCount = selectedSeats.length;
-
-  count.innerText = selectedSeatsCount;
-  total.innerText = selectedSeatsCount * ticketPrice;
+const selectButaca2 = async () => {
+  var butacasSelect = document.getElementsByClassName("Select");
+  butacasSelect = Array.from(butacasSelect);
+  butacasSelect = butacasSelect.map((butaca) =>{
+    return butaca.id
+  });
 }
 
-// get data from local storage and populate UI
-function populateUI() {
-  const selectedSeats = JSON.parse(localStorage.getItem("selectedSeats"));
+/* 
 
-  if (selectedSeats !== null && selectedSeats.length > 0) {
-    seats.forEach((seat, index) => {
-      if (selectedSeats.indexOf(index) > -1) {
-        seat.classList.add("selected");
-      }
-    });
-  }
+Sess:
+-ID Butacas
+-ID Pelicula
+-ID Horario
+-ID Cine
+-User 
 
-  const selectedMovieIndex = localStorage.getItem("selectedMovieIndex");
 
-  if (selectedMovieIndex !== null) {
-    movieSelect.selectedIndex = selectedMovieIndex;
-  }
-}
+1. Cambiar la estructura de la tabla Funciones_sala agregar un boolean
+2. Hacer la petición ajax para guardar las butacas seleccionadas
+3. Desde la ruta horario, pedir las butacas
+4. En butacas matchear las que esten seleccionada osea la que esten en TRUE
+5. Pantalla de confirmación
+6. Tabla entrada
+7. Pantalla entradas del usuario
+8. Pantalla de modificación de entrada
+9. Ruta para modificar una entrada
+10. Ruta para eliminar una entrada
 
-// movie select event
-movieSelect.addEventListener("change", e => {
-  ticketPrice = +e.target.value;
-  setMovieData(e.target.selectedIndex, e.target.value);
-  updateSelectedCount();
-});
-
-//seat click event
-container.addEventListener("click", e => {
-  if (
-    e.target.classList.contains("seat") &&
-    !e.target.classList.contains("occupied")
-  ) {
-    e.target.classList.toggle("selected");
-
-    updateSelectedCount();
-  }
-});
-
-// initial count and total
-
-updateSelectedCount();
+*/

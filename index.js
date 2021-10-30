@@ -13,11 +13,19 @@
 const express = require("express"); //Para el manejo del servidor Web
 const exphbs = require("express-handlebars"); //Para el manejo de los HTML
 const bodyParser = require("body-parser"); //Para el manejo de los strings JSON
+const session = require("express-session");
 const MySQL = require("./modulos/mysql"); //Añado el archivo mysql.js presente en la carpeta módulos
 //const Preguntados = require('./modulos/preguntados');
 
 const app = express(); //Inicializo express para el manejo de las peticiones
+var sess = {
+  secret: "keyboard cat",
+  cookie: {},
+  resave: true,
+  saveUninitialized: true,
+};
 
+app.use(session(sess));
 app.use(express.static("public")); //Expongo al lado cliente la carpeta "public"
 app.use(bodyParser.urlencoded({ extended: false })); //Inicializo el parser JSON
 app.use(bodyParser.json());
@@ -46,10 +54,6 @@ app.get("/", function (req, res) {
   res.render("login", null); //Renderizo página "login" sin pasar ningún objeto a Handlebars
 });
 
-app.get("/funciones", async function (req, res) {
-  res.send("Hola");
-});
-
 /*Funciones LOGIN*/
 app.post("/login", async function (req, res) {
   /*Capturamos los datos */
@@ -66,13 +70,9 @@ app.post("/login", async function (req, res) {
     res.send("Contraseña incorrecta");
   }
   if (result[0].pass == password) {
+    sess.user = result[0].mail;
     res.send("Bienvenido");
   }
-});
-
-app.put("/login", function (req, res) {
-  //Petición PUT con URL = "/login"
-  res.send(null);
 });
 
 /* REGISTER */
@@ -94,19 +94,29 @@ app.get("/peliculas", async function (req, res) {
   var result = await MySQL.realizarQuery(
     `SELECT * FROM Funciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE idCines = ${req.query.idCine}`
   );
-  cambiarFormatoHora(result)
+  result = cambiarFormatoHora(result);
+  sess.cine = req.query.idCine;
   res.render("peliculas", { peliculas: result });
 });
-
 
 app.get("/horarios", async function (req, res) {
+  const { idPeliculas, idHorarios } = req.query;
   const result = await MySQL.realizarQuery(
     "select Horarios.hora from Funciones join Horarios on Funciones.idHorarios = Horarios.idHorarios where idPeliculas = " +
-      req.query.idPeliculas
+    idPeliculas
   );
-  res.render("peliculas", { peliculas: result });
+  sess.pelicula = idPeliculas;
+  sess.horario = idHorarios
+  console.log(sess);
+  res.render("butacas", { peliculas: result });
 });
 
+app.post("/butacas", async function (req, res) {
+  const result = await MySQL.realizarQuery(
+    `INSERT INTO Funciones_Salas VALUES (0,"${idSala}","${idFunciones}","${idButacas}")`
+  );
+  res.render("butacas", { peliculas: result });
+});
 
 /* ADMIN */
 app.get("/admin", function (req, res) {
@@ -132,7 +142,6 @@ app.get("/admincine", function (req, res) {
 
 app.post("/cineAdd", async function (req, res) {
   /*Capturamos los datos */
-;
   const { nombre, barrio, direccion } = req.body;
   const result = await MySQL.realizarQuery(
     `INSERT INTO Cines VALUES (0, "${nombre}","${barrio}","${direccion}")`
@@ -149,8 +158,8 @@ app.post("/horarioAdd", async function (req, res) {
   const { hora } = req.body;
   const result = await MySQL.realizarQuery(
     `INSERT INTO Horarios VALUES (0, '2020-01-01 ${hora}:00:00');`
-    );
-    res.send("Horario agregado a la base de datos");
+  );
+  res.send("Horario agregado a la base de datos");
 });
 
 /* Butacas */
@@ -168,12 +177,14 @@ app.get("/cines", async function (req, res) {
   res.render("cine", { cines: result });
 });
 
+app.get("/session", async function(req,res){
+  res.send(sess);
+})
 
-const cambiarFormatoHora = (peliculas) =>  {
-  const pelicuasNuevoHora = peliculas.map((pelicula) => {
+const cambiarFormatoHora = (peliculas) => {
+  peliculas.map((pelicula) => {
     const nuevoFormato = pelicula.hora.toString().split(" ");
     pelicula.hora = nuevoFormato[4];
-  })
-
-  return pelicuasNuevoHora;
-}
+  });
+  return peliculas;
+};

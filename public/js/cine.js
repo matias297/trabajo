@@ -3,3 +3,13 @@ function selectCine(idCines){
         console.log(res)
     })
 }
+
+function selectMovie(arg){
+    const data = {
+        idPeliculas: arg[0],
+        idHorarios: arg[1]
+    }
+    ajax("GET", "/horarios", data, function(res){
+        window.location.href = "/butacas"
+    })
+}

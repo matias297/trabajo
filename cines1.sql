@@ -128,7 +128,6 @@ INSERT INTO Funciones_Salas values
 (0, 6, 5),
 (0, 6, 6);
 
-delete * from Funciones;
 select * from Funciones;
 select * from Funciones_Salas;
 select * from Peliculas;
