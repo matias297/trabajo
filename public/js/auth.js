@@ -93,7 +93,7 @@ async function validateStart() {
     const sendData = { email: data[0], password: data[1] };
     ajax("POST", "/login", sendData, function (res) {
       if (res === "Bienvenido") {
-        window.location.href = "/cine";
+        window.location.href = "/cines";
       }
       if (res === "Contraseña incorrecta") {
         alert("Contraseña incorrecta");
