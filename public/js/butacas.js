@@ -17,10 +17,8 @@ const selectButaca2 = async () => {
     return (data["Butaca_" + butaca.id] = true);
   });
 
-  console.log(data);
-
   ajax("POST", "/butacas", data, function (res) {
-    console.log(res);
+    window.location.href = "/confirmar";
   });
 };
 
