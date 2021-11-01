@@ -91,6 +91,23 @@ CREATE TABLE Funciones_Salas (
     PRIMARY KEY (idSala)
 );
 
+CREATE TABLE Reserva (
+	idReserva int auto_increment,
+    idFunciones int,
+    idUsuario int,
+    Butaca_1 boolean, 
+    Butaca_2 boolean, 
+    Butaca_3 boolean, 
+    Butaca_4 boolean, 
+    Butaca_5 boolean, 
+    Butaca_6 boolean,
+    Confirmo boolean,
+    FOREIGN KEY (idFunciones) references Funciones(idFunciones),
+    FOREIGN KEY (idUsuario) references Usuarios(idUsuario),
+    PRIMARY KEY (idReserva)
+);
+
+
 INSERT INTO Funciones_Salas values 
 (0, 1, 1, false),
 (0, 1, 2, false),

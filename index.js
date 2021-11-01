@@ -225,3 +225,18 @@ app.get("/logout", function(){
   sess = null;
   res.redirect("/");
 })
+
+app.get("/usuarioinfo", async function (req, res) {
+  res.render("usuarioinfo", null);
+});
+
+app.get("/usuarioreservas", async function (req, res) {
+  const result = await MySQL.realizarQuery("SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE Reserva.idUsuario =  " + sess.idUser)
+  res.render("usuarioreservas", { entradas: result });
+});
+
+app.get("/usuarioconfirmadas", async function (req, res) {
+  const result = await MySQL.realizarQuery("SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE Reserva.idUsuario =  " + sess.idUser)
+  res.render("usuarioconfirmadas", { entradas: result });
+});
+

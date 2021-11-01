@@ -1,0 +1,27 @@
+    <h2>Entradas Reservadas</h2>
+    <p></p>
+    
+  {{#each entradas}}
+    <div class="entradasreservadas">
+      <h4>Entrada:</h4>
+      <p>{{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
+      <p>{{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
+      <p>{{this.Hora}}</p> {{!-- {Nombre horario}} --}}
+    </div>
+    <form action="/modificarentrada" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Modificar entrada</button>
+            </div>
+    </form>
+    <form action="/borrarentrada" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Eliminar entrada</button>
+            </div>
+    </form>
+  {{/each}}
+    <p></p>
+    <form action="/usuarioinfo" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Volver</button>
+            </div>
+    </form>

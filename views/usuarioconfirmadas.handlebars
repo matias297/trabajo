@@ -1,0 +1,18 @@
+    <h2>Entradas Confirmadas</h2>
+    <p></p>
+    
+  {{#each entradas}}
+    <div class="entradasconfirmadas">
+      <h4>Entrada:</h4>
+      <p>{{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
+      <p>{{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
+      <p>{{this.Hora}}</p> {{!-- {Nombre horario}} --}}
+    </div>
+  {{/each}}
+    
+    <form action="/usuarioinfo" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Volver</button>
+            </div>
+    </form>
+    
