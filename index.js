@@ -71,6 +71,7 @@ app.post("/login", async function (req, res) {
   }
   if (result[0].pass == password) {
     sess.user = result[0].mail;
+    sess.idUser = result[0].idUsuario;
     res.send("Bienvenido");
   }
 });
@@ -99,21 +100,45 @@ app.get("/peliculas", async function (req, res) {
   res.render("peliculas", { peliculas: result });
 });
 
+
+
 app.get("/horarios", async function (req, res) {
   const { idPeliculas, idHorarios } = req.query;
   const result = await MySQL.realizarQuery(
     "select Horarios.hora from Funciones join Horarios on Funciones.idHorarios = Horarios.idHorarios where idPeliculas = " +
-    idPeliculas
+      idPeliculas
+  );
+  const funcion = await MySQL.realizarQuery(
+    `SELECT * FROM Funciones where Funciones.idPeliculas = ${idPeliculas} AND Funciones.idCines= ${sess.cine}`
   );
   sess.pelicula = idPeliculas;
-  sess.horario = idHorarios
-  console.log(sess);
-  res.render("butacas", { peliculas: result });
-});
+  sess.horario = idHorarios;
+  sess.funcion = funcion[0].idFunciones;
 
+  const butacas = await MySQL.realizarQuery(
+    `SELECT * FROM Reserva where Reserva.idFunciones = ${funcion[0].idFunciones}`
+  );
+  console.log(butacas);
+  res.render("butacas", { butacas: butacas });
+});
+app.get("/reservas", async function(req,res) {
+  const butacas = await MySQL.realizarQuery(
+    `SELECT * FROM Reserva where Reserva.idFunciones = ${sess.funcion}`
+  );
+  res.send(butacas)
+})
 app.post("/butacas", async function (req, res) {
+  const {
+    Butaca_1,
+    Butaca_2,
+    Butaca_3,
+    Butaca_4,
+    Butaca_5,
+    Butaca_6,
+  } = req.body;
+
   const result = await MySQL.realizarQuery(
-    `INSERT INTO Funciones_Salas VALUES (0,"${idSala}","${idFunciones}","${idButacas}")`
+    `INSERT INTO Reserva VALUES (0,"${sess.funcion}","${sess.idUser}", "${Butaca_1 ? 1 : 0} ", "${Butaca_2 ? 1 : 0}", "${Butaca_3 ? 1 : 0}","${Butaca_4 ? 1 : 0}","${Butaca_5 ? 1 : 0}","${Butaca_6 ? 1 : 0}", false)`
   );
   res.render("butacas", { peliculas: result });
 });
@@ -177,9 +202,16 @@ app.get("/cines", async function (req, res) {
   res.render("cine", { cines: result });
 });
 
-app.get("/session", async function(req,res){
+app.post("/reserva", async function (req, res) {
+  sess.idCine;
+  sess.idPelicula;
+  sess.idHorario;
+  sess.idButacas;
+});
+
+app.get("/session", async function (req, res) {
   res.send(sess);
-})
+});
 
 const cambiarFormatoHora = (peliculas) => {
   peliculas.map((pelicula) => {
@@ -188,3 +220,8 @@ const cambiarFormatoHora = (peliculas) => {
   });
   return peliculas;
 };
+
+app.get("/logout", function(){
+  sess = null;
+  res.redirect("/");
+})

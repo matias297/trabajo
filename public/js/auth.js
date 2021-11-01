@@ -125,3 +125,11 @@ function pintarBordeEnRojo(input) {
 function pintarBorderEnGris(input) {
   input.style.borderColor = "#ced4da";
 }
+
+function logout() {
+  ajax("GET", "/logout", null, function (res) {
+    if (res === "Logout") {
+      window.location.href = "/";
+    }
+  });
+}
