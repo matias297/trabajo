@@ -16,13 +16,15 @@ async function registerAction() {
     };
     
     ajax("POST", "/register", senData, function (res) {
-      if (res.status === 200) {
+      console.log(res)
+      if (res === "Usuario registrado") {
+        console.log("dsadas")
         window.location.href = "/cines";
       }
       if (res.status === 400) {
         alert("Error en el registro");
       }
-      if (res.status === 409) {
+      if (res === "Usuario ya existe") {
         alert("El usuario ya existe");
       }
     });

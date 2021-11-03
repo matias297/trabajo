@@ -80,10 +80,18 @@ app.post("/login", async function (req, res) {
 app.post("/register", async function (req, res) {
   /*Capturamos los datos */
   const { email, password, nombre, apellido, dni } = req.body;
-  const result = await MySQL.realizarQuery(
-    `INSERT INTO Usuarios VALUES (3,"${nombre}","${apellido}","${email}","${dni}","${password}")`
-  );
-  res.send("Usuario registrado");
+  /*Hacemos consulta a la base */
+  const result = await MySQL.realizarQuery("SELECT * FROM Usuarios.email =" + email);
+
+    if(result[0] === undefined){
+      const result = await MySQL.realizarQuery(
+        `INSERT INTO Usuarios VALUES (0,"${nombre}","${apellido}","${email}","${dni}","${password}")`
+      );
+      res.send("Usuario registrado");
+    }else{
+      res.send("Usuario ya existe");
+    }
+  
 });
 
 app.get("/register", function (req, res) {
@@ -243,4 +251,30 @@ app.get("/usuarioconfirmadas", async function (req, res) {
       sess.idUser
   );
   res.render("usuarioconfirmadas", { entradas: result });
+});
+
+app.post("/entrada/confirmar", async function (req, res) {
+  const result = await MySQL.realizarQuery(`UPDATE Reserva SET Confirmo = 1 WHERE Reserva.idFunciones = ${sess.funcion} AND Reserva.idUsuario = ${sess.idUser}`);
+});
+
+app.post("/entradaconfirmada", async function(req,res){
+  res.render("entradaconfirmada", null);
+})
+
+
+app.delete("/eliminarreverva", async function (req, res) {
+  const result = await MySQL.realizarQuery("DELETE FROM Reserva WHERE idReserva > '" + req.query.idReserva + "';")
+
+}); 
+
+app.put("/modificarreserva", async function (req, res) {
+  const { idReserva, idFunciones, Butaca_1, Butaca_2, Butaca_3, Butaca_4, Butaca_5, Butaca_6 } = req.body;
+  const result = await MySQL.realizarQuery(`UPDATE Reserva SET idFunciones = ${idFunciones}, Butaca_1 = ${Butaca_1}, Butaca_2 = ${Butaca_2}, Butaca_3 = ${Butaca_3}, Butaca_4 = ${Butaca_4}, Butaca_5 = ${Butaca_5}, Butaca_6 = ${Butaca_6} WHERE Reserva.idReserva = ${idReserva}` )
+
+});
+
+app.get("/modificarentrada", async function (req, res) {
+  const result = await MySQL.realizarQuery("SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Funciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas  JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios  WHERE Peliculas.nombre = '" + req.query.NombrePelicula + "';")
+  console.log(result)
+  res.render("modificarentrada", { entradas: result });
 });
