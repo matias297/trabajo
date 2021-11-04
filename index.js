@@ -62,6 +62,7 @@ app.post("/login", async function (req, res) {
   const result = await MySQL.realizarQuery(
     `SELECT * FROM Usuarios WHERE mail = "${email}"`
   );
+  
   /* Validamos la contraseña */
   if (result[0] === undefined) {
     res.send("Usuario no existe");
@@ -81,15 +82,20 @@ app.post("/register", async function (req, res) {
   /*Capturamos los datos */
   const { email, password, nombre, apellido, dni } = req.body;
   /*Hacemos consulta a la base */
-  const result = await MySQL.realizarQuery("SELECT * FROM Usuarios.email =" + email);
+  const result = await MySQL.realizarQuery(`SELECT * FROM Usuarios WHERE Usuarios.mail = "${email}"`);
 
     if(result[0] === undefined){
-      const result = await MySQL.realizarQuery(
+      const User = await MySQL.realizarQuery(
         `INSERT INTO Usuarios VALUES (0,"${nombre}","${apellido}","${email}","${dni}","${password}")`
       );
+      const UserRegister = await MySQL.realizarQuery(`SELECT * FROM Usuarios WHERE Usuarios.mail = "${email}"`);
+
+      console.log(UserRegister[0]);
+      sess.user = UserRegister[0].mail;
+      sess.idUser = UserRegister[0].idUsuario;
       res.send("Usuario registrado");
     }else{
-      res.send("Usuario ya existe");
+      res.send("Usuario ya existe");      
     }
   
 });
