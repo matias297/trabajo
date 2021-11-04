@@ -1,22 +1,25 @@
+ {{> header this}}
     <h2>Entradas Reservadas</h2>
     <p></p>
     
   {{#each entradas}}
     <div class="entradasreservadas">
       <h4>Entrada:</h4>
-      <p>{{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
-      <p>{{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
-      <p>{{this.Hora}}</p> {{!-- {Nombre horario}} --}}
+      <p>Nombre de la pelicula: {{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
+      <p>Cine: {{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
+      <p>Horario: {{this.Hora}}</p> {{!-- {Nombre horario}} --}}
     </div>
     <form action="/modificarentrada" method="GET" class="container-sm">
             <div class="mb-3 form-check" style="margin-top: 20px; ">
                 <button  class="btn btn-primary">Modificar entrada</button>
             </div>
+            <input type="hidden" name="NombrePelicula" value="{{this.Pelicula}}">
     </form>
-    <form action="/borrarentrada" method="GET" class="container-sm">
+    <form action="/eliminarreserva" method="GET" class="container-sm">
             <div class="mb-3 form-check" style="margin-top: 20px; ">
                 <button  class="btn btn-primary">Eliminar entrada</button>
             </div>
+            <input type="hidden" name="idReserva" value="{{this.idReserva}}">
     </form>
   {{/each}}
     <p></p>

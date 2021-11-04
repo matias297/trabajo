@@ -1,12 +1,13 @@
+{{> header this}}
     <h2>Entradas Confirmadas</h2>
     <p></p>
     
   {{#each entradas}}
     <div class="entradasconfirmadas">
       <h4>Entrada:</h4>
-      <p>{{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
-      <p>{{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
-      <p>{{this.Hora}}</p> {{!-- {Nombre horario}} --}}
+      <p>Nombre de la pelicula: {{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
+      <p>Cine: {{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
+      <p>Horario: {{this.Hora}}</p> {{!-- {Nombre horario}} --}}
     </div>
   {{/each}}
     

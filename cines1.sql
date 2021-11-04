@@ -150,3 +150,13 @@ select * from Funciones;
 select * from Funciones_Salas;
 select * from Peliculas;
 select Peliculas.nombre from Funciones join Peliculas on Funciones.idPeliculas = Peliculas.idPeliculas where idCines = 1;
+
+UPDATE Funciones SET idFunciones = '1' WHERE idFunciones = '29';
+UPDATE Funciones SET idFunciones = '2' WHERE idFunciones = '30';
+UPDATE Funciones SET idFunciones = '3' WHERE idFunciones = '31';
+UPDATE Funciones SET idFunciones = '4' WHERE idFunciones = '32';
+UPDATE Funciones SET idFunciones = '5' WHERE idFunciones = '33';
+UPDATE Funciones SET idFunciones = '6' WHERE idFunciones = '34';
+UPDATE Funciones SET idFunciones = '7' WHERE idFunciones = '35';
+UPDATE Funciones SET idFunciones = '8' WHERE idFunciones = '36';
+UPDATE Funciones SET idFunciones = '9' WHERE idFunciones = '37';
