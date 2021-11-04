@@ -1,9 +1,10 @@
 const confirmarEntrada = () => {
     ajax("POST", "/entrada/confirmar", null, function(res){
-        window.location.href = "/entradaconfirmada"
+        console.log(res)
+        return window.location.href = "/entradaconfirmada"
     })  
 }
 
 const volverAlInicio = () => {
-    window.location.href = "/"
+    window.location.href = "/cines"
 }

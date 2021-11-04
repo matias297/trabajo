@@ -51,7 +51,12 @@ app.listen(Listen_Port, function () {
 /*Renderizados */
 
 app.get("/", function (req, res) {
-  res.render("login", null); //Renderizo página "login" sin pasar ningún objeto a Handlebars
+  if(sess.user){
+    res.render("cine", null);
+  }else{
+    res.render("login", null); //Renderizo página "login" sin pasar ningún objeto a Handlebars
+  }
+  
 });
 
 /*Funciones LOGIN*/
@@ -89,8 +94,6 @@ app.post("/register", async function (req, res) {
         `INSERT INTO Usuarios VALUES (0,"${nombre}","${apellido}","${email}","${dni}","${password}")`
       );
       const UserRegister = await MySQL.realizarQuery(`SELECT * FROM Usuarios WHERE Usuarios.mail = "${email}"`);
-
-      console.log(UserRegister[0]);
       sess.user = UserRegister[0].mail;
       sess.idUser = UserRegister[0].idUsuario;
       res.send("Usuario registrado");
@@ -274,9 +277,10 @@ app.get("/usuarioconfirmadas", async function (req, res) {
 
 app.post("/entrada/confirmar", async function (req, res) {
   const result = await MySQL.realizarQuery(`UPDATE Reserva SET Confirmo = 1 WHERE Reserva.idFunciones = ${sess.funcion} AND Reserva.idUsuario = ${sess.idUser}`);
+  res.redirect("/entradaconfirmada")
 });
 
-app.post("/entradaconfirmada", async function(req,res){
+app.get("/entradaconfirmada", async function(req,res){
   res.render("entradaconfirmada", null);
 })
 
@@ -297,3 +301,7 @@ app.get("/modificarentrada", async function (req, res) {
   console.log(result)
   res.render("modificarentrada", { entradas: result });
 });
+
+app.get("/confirmar", async function(req,res){
+  res.render("confirmar", null);
+})

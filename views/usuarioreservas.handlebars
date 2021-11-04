@@ -3,7 +3,9 @@
     <p></p>
     
   {{#each entradas}}
-    <div class="entradasreservadas">
+    {{#if "this.Confirmo == 1"}}
+    {{else}}
+        <div class="entradasreservadas">
       <h4>Entrada:</h4>
       <p>Nombre de la pelicula: {{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
       <p>Cine: {{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
@@ -21,6 +23,7 @@
             </div>
             <input type="hidden" name="idReserva" value="{{this.idReserva}}">
     </form>
+    {{/if}}
   {{/each}}
     <p></p>
     <form action="/usuarioinfo" method="GET" class="container-sm">
