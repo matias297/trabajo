@@ -1,0 +1,23 @@
+{{> header this}}
+    <h2>Otras Funciones disponibles con la misma pelicula</h2>
+    <p></p>
+    
+  {{#each entradas}}
+    <div class="modificarentradas">
+      <h4>Funcion:</h4>
+      <p>Nombre de la pelicula: {{this.Pelicula}}</p>
+      <p>Cine: {{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
+      <p>Horario: {{this.Hora}}</p> {{!-- {Nombre horario}} --}}
+    </div>
+    <form action="/modificarentrada" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Seleccionar Butacas</button>
+            </div>
+    </form>
+  {{/each}}
+    <p></p>
+    <form action="/usuarioinfo" method="GET" class="container-sm">
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button  class="btn btn-primary">Volver</button>
+            </div>
+    </form>

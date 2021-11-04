@@ -108,6 +108,8 @@ app.get("/peliculas", async function (req, res) {
   res.render("peliculas", { peliculas: result });
 });
 
+
+
 app.get("/horarios", async function (req, res) {
   const { idPeliculas, idHorarios } = req.query;
   const result = await MySQL.realizarQuery(
@@ -124,37 +126,29 @@ app.get("/horarios", async function (req, res) {
   const butacas = await MySQL.realizarQuery(
     `SELECT * FROM Reserva where Reserva.idFunciones = ${funcion[0].idFunciones}`
   );
+  console.log(butacas);
   res.render("butacas", { butacas: butacas });
 });
-app.get("/reservas", async function (req, res) {
+app.get("/reservas", async function(req,res) {
   const butacas = await MySQL.realizarQuery(
     `SELECT * FROM Reserva where Reserva.idFunciones = ${sess.funcion}`
   );
-  res.send(butacas);
-});
-
-app.get("/confirmar", async function (req, res) {
-  const result =
-    await MySQL.realizarQuery(`SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones
-  JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas
-  JOIN Cines ON Funciones.idCines = Cines.idCines
-  JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios
-  WHERE Reserva.idUsuario = ${sess.idUser} AND Reserva.idFunciones = ${sess.funcion}`);
-  res.render("confirmar", { entrada: result });
-});
-
+  res.send(butacas)
+})
 app.post("/butacas", async function (req, res) {
-  const { Butaca_1, Butaca_2, Butaca_3, Butaca_4, Butaca_5, Butaca_6 } =
-    req.body;
+  const {
+    Butaca_1,
+    Butaca_2,
+    Butaca_3,
+    Butaca_4,
+    Butaca_5,
+    Butaca_6,
+  } = req.body;
 
   const result = await MySQL.realizarQuery(
-    `INSERT INTO Reserva VALUES (0,"${sess.funcion}","${sess.idUser}", "${
-      Butaca_1 ? 1 : 0
-    } ", "${Butaca_2 ? 1 : 0}", "${Butaca_3 ? 1 : 0}","${Butaca_4 ? 1 : 0}","${
-      Butaca_5 ? 1 : 0
-    }","${Butaca_6 ? 1 : 0}", false)`
+    `INSERT INTO Reserva VALUES (0,"${sess.funcion}","${sess.idUser}", "${Butaca_1 ? 1 : 0} ", "${Butaca_2 ? 1 : 0}", "${Butaca_3 ? 1 : 0}","${Butaca_4 ? 1 : 0}","${Butaca_5 ? 1 : 0}","${Butaca_6 ? 1 : 0}", false)`
   );
-  res.render("confirmar", { peliculas: result });
+  res.render("butacas", { peliculas: result });
 });
 
 /* ADMIN */
@@ -216,6 +210,13 @@ app.get("/cines", async function (req, res) {
   res.render("cine", { cines: result });
 });
 
+app.post("/reserva", async function (req, res) {
+  sess.idCine;
+  sess.idPelicula;
+  sess.idHorario;
+  sess.idButacas;
+});
+
 app.get("/session", async function (req, res) {
   res.send(sess);
 });
@@ -228,28 +229,40 @@ const cambiarFormatoHora = (peliculas) => {
   return peliculas;
 };
 
-app.get("/logout", function () {
+app.get("/logout", function(){
   sess = null;
   res.redirect("/");
-});
+})
 
 app.get("/usuarioinfo", async function (req, res) {
   res.render("usuarioinfo", null);
 });
 
 app.get("/usuarioreservas", async function (req, res) {
-  const result = await MySQL.realizarQuery(
-    "SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE Reserva.idUsuario =  " +
-      sess.idUser
-  );
+  const result = await MySQL.realizarQuery("SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE Reserva.idUsuario =  " + sess.idUser)
   res.render("usuarioreservas", { entradas: result });
 });
 
+
+app.get("/modificarentrada", async function (req, res) {
+  const result = await MySQL.realizarQuery("SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Funciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas  JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios  WHERE Peliculas.nombre = '" + req.query.NombrePelicula + "';")
+  console.log(result)
+  res.render("modificarentrada", { entradas: result });
+});
+
+app.put("/modificarreserva", async function (req, res) {
+  const { idReserva, idFunciones, Butaca_1, Butaca_2, Butaca_3, Butaca_4, Butaca_5, Butaca_6 } = req.body;
+  const result = await MySQL.realizarQuery(`UPDATE Reserva SET idFunciones = ${idFunciones}, Butaca_1 = ${Butaca_1}, Butaca_2 = ${Butaca_2}, Butaca_3 = ${Butaca_3}, Butaca_4 = ${Butaca_4}, Butaca_5 = ${Butaca_5}, Butaca_6 = ${Butaca_6} WHERE Reserva.idReserva = ${idReserva}` )
+
+});
+
+app.delete("/eliminarreverva", async function (req, res) {
+  const result = await MySQL.realizarQuery("DELETE FROM Reserva WHERE idReserva > '" + req.query.idReserva + "';")
+
+}); 
+
 app.get("/usuarioconfirmadas", async function (req, res) {
-  const result = await MySQL.realizarQuery(
-    "SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE Reserva.idUsuario =  " +
-      sess.idUser
-  );
+  const result = await MySQL.realizarQuery("SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Reserva JOIN Funciones ON Reserva.idFunciones = Funciones.idFunciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios WHERE Reserva.idUsuario =  " + sess.idUser)
   res.render("usuarioconfirmadas", { entradas: result });
 });
 
