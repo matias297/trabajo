@@ -3,8 +3,7 @@
     <p></p>
     
   {{#each entradas}}
-    {{#if "this.Confirmo == 1"}}
-    {{else}}
+    {{#if "this.Confirmo == 0"}}
         <div class="entradasreservadas">
       <h4>Entrada:</h4>
       <p>Nombre de la pelicula: {{this.Pelicula}}</p> {{!-- {{Nombre pelicula}} --}}
@@ -17,15 +16,20 @@
             </div>
             <input type="hidden" name="NombrePelicula" value="{{this.Pelicula}}">
     </form>
-    <form action="/eliminarreserva" method="GET" class="container-sm">
-            <div class="mb-3 form-check" style="margin-top: 20px; ">
-                <button  class="btn btn-primary">Eliminar entrada</button>
-            </div>
-            <input type="hidden" name="idReserva" value="{{this.idReserva}}">
-    </form>
+    <div class="mb-3 form-check" style="margin-top: 20px; ">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="mostrarPopUp()">Eliminar entrada</button>
+    </div>  
     {{/if}}
   {{/each}}
-    <p></p>
+  <div id="popup" class="overlay">
+    <div id="popupBody">
+      <h2>Título de la ventana</h2>
+        <a id="cerrar" href="#">&times;</a>
+        <div class="popupContent">
+          <p>Este es el contenido</p>
+        </div>
+    </div>
+  </div>
     <form action="/usuarioinfo" method="GET" class="container-sm">
             <div class="mb-3 form-check" style="margin-top: 20px; ">
                 <button  class="btn btn-primary">Volver</button>

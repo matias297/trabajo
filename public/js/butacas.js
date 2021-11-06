@@ -25,11 +25,11 @@ const selectButaca2 = async () => {
 const mostrarReservadas = async () => {
   await ajax("GET", "/reservas", null, function (res) {
     var inputs = document.getElementsByClassName("noSelect");
-    cambiarClase(inputs, res);
+    cambiarClase(res);
   });
 };
 
-const cambiarClase = async (input, butacas) => {
+const cambiarClase = async (butacas) => {
   butacas = JSON.parse(butacas)
   for (var i = 0; i < 7; i++) {
     if(butacas[0]["Butaca_" + i] === 1){

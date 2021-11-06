@@ -130,7 +130,8 @@ function pintarBorderEnGris(input) {
 
 function logout() {
   ajax("GET", "/logout", null, function (res) {
-    if (res === "Logout") {
+    console.log(res)
+    if (res === "logout") {
       window.location.href = "/";
     }
   });

@@ -5,19 +5,25 @@
   {{#each entradas}}
     <div class="modificarentradas">
       <h4>Funcion:</h4>
-      <p>Nombre de la pelicula: {{this.Pelicula}}</p>
-      <p>Cine: {{this.Cine}}</p> {{!-- {{Nombre cine}} --}}
+      <p>Nombre de la pelicula:</p>
+      <p id="nombrePelicula">{{this.Pelicula}}</p>
+      <p>Cine:</p> {{!-- {{Nombre cine}} --}}
+      <p id="nombreCine">{{this.Cine}}</p>
       <p>Horario: {{this.Hora}}</p> {{!-- {Nombre horario}} --}}
     </div>
-    <form action="/modificarentrada" method="GET" class="container-sm">
-            <div class="mb-3 form-check" style="margin-top: 20px; ">
-                <button  class="btn btn-primary">Seleccionar Butacas</button>
-            </div>
+    <form action="/entrada/modificar/{{this.Cine}}/{{this.Pelicula}}" method="POST" class="container-sm">
+        <div class="mb-3 form-check" style="margin-top: 20px; ">
+          <button  class="btn btn-primary">Seleccionar Butaca</button>
+        </div>
     </form>
   {{/each}}
     <p></p>
     <form action="/usuarioinfo" method="GET" class="container-sm">
-            <div class="mb-3 form-check" style="margin-top: 20px; ">
-                <button  class="btn btn-primary">Volver</button>
-            </div>
+        <div class="mb-3 form-check" style="margin-top: 20px; ">
+          <button  class="btn btn-primary">Volver</button>
+        </div>
     </form>
+
+<div>
+  
+</div>
