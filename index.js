@@ -141,7 +141,6 @@ app.get("/reservas", async function (req, res) {
   res.send(butacas);
 });
 
-
 /* ADMIN */
 app.get("/admin", function (req, res) {
   res.render("admin", null);
@@ -240,9 +239,14 @@ app.get("/usuarioreservas", async function (req, res) {
 
 app.get("/modificarentrada", async function (req, res) {
   const result = await MySQL.realizarQuery(
-    "SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Funciones JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas  JOIN Cines ON Funciones.idCines = Cines.idCines JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios  WHERE Peliculas.nombre = '" +
-      req.query.NombrePelicula +
-      "';"
+    `
+    SELECT Peliculas.nombre as Pelicula, Cines.nombre as Cine, Horarios.hora as Hora FROM Funciones 
+    JOIN Peliculas ON Funciones.idPeliculas = Peliculas.idPeliculas  
+    JOIN Cines ON Funciones.idCines = Cines.idCines 
+    JOIN Horarios ON Funciones.idHorarios = Horarios.idHorarios
+    JOIN Reserva ON Reserva.idFunciones != Funciones.idFunciones 
+    AND Reserva.idUsuario =  "${sess.idUser}"
+    WHERE Peliculas.nombre = "${req.query.NombrePelicula}" ;`
   );
   console.log(result);
   res.render("modificarentrada", { entradas: result });
@@ -313,17 +317,14 @@ app.put("/modificarreserva", async function (req, res) {
   );
 });
 
-
-
 app.get("/confirmar", async function (req, res) {
   res.render("confirmar", null);
 });
 
 app.post("/entrada/modificar/:cine/:pelicula", async function (req, res) {
-
   /*Elegimos la funcion del cine a la cual el usuario desea cambiar */
-   const { cine, pelicula } = req.params;
-  console.log(cine, pelicula)
+  const { cine, pelicula } = req.params;
+  console.log(cine, pelicula);
   const idPeliculas = await MySQL.realizarQuery(
     `SELECT Peliculas.idPeliculas FROM Peliculas WHERE Peliculas.nombre = "${pelicula}" `
   );
@@ -335,13 +336,12 @@ app.post("/entrada/modificar/:cine/:pelicula", async function (req, res) {
   );
   //const ReservasFuncion = await MySQL.realizarQuery(`SELECT * FROM Reservas WHERE Reservas.idFunciones = "${idFuncion[0].idFunciones}"`)
   sess.funcion = idFuncion[0].idFunciones;
-  console.log(sess)
+  console.log(sess);
   sess.update = true;
-  res.render("butacas", null); 
+  res.render("butacas", null);
 });
 
 app.post("/butacas", async function (req, res) {
-  
   if (!sess.update) {
     const { Butaca_1, Butaca_2, Butaca_3, Butaca_4, Butaca_5, Butaca_6 } =
       req.body;
@@ -354,8 +354,10 @@ app.post("/butacas", async function (req, res) {
       }","${Butaca_5 ? 1 : 0}","${Butaca_6 ? 1 : 0}", false)`
     );
     res.render("butacas", { peliculas: result });
-  }else{
-    const idReserva = await MySQL.realizarQuery(`SELECT Reserva.idReserva FROM Reserva WHERE Reserva.idUsuario = "${sess.idUser}" AND Reserva.Confirmo = 0`);
+  } else {
+    const idReserva = await MySQL.realizarQuery(
+      `SELECT Reserva.idReserva FROM Reserva WHERE Reserva.idUsuario = "${sess.idUser}" AND Reserva.Confirmo = 0`
+    );
     const { Butaca_1, Butaca_2, Butaca_3, Butaca_4, Butaca_5, Butaca_6 } =
       req.body;
 
@@ -366,12 +368,13 @@ app.post("/butacas", async function (req, res) {
         Butaca_4 ? 1 : 0
       }", Butaca_5 = "${Butaca_5 ? 1 : 0}", Butaca_6 = "${
         Butaca_6 ? 1 : 0
-      }", idFunciones = ${sess.funcion} WHERE Reserva.idReserva = ${idReserva[0].idReserva}`
+      }", idFunciones = ${sess.funcion} WHERE Reserva.idReserva = ${
+        idReserva[0].idReserva
+      }`
     );
     sess.update = false;
     res.render("butacas", { peliculas: result });
   }
-    
 });
 
 app.get("/modificarentrada", async function (req, res) {
