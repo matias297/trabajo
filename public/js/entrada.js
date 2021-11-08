@@ -26,3 +26,5 @@ const seleccionarButaca = (cine) => {
     return (window.location.href = "/butacas");
   });
 };
+
+

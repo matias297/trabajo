@@ -16,20 +16,13 @@
             </div>
             <input type="hidden" name="NombrePelicula" value="{{this.Pelicula}}">
     </form>
-    <div class="mb-3 form-check" style="margin-top: 20px; ">
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="mostrarPopUp()">Eliminar entrada</button>
-    </div>  
+    <form action="/eliminarreserva/{{this.Pelicula}}/{{this.Cine}}" method="DELETE" class="container-sm">      
+            <div class="mb-3 form-check" style="margin-top: 20px; ">
+                <button type="submit" onclick="eliminarEntrada({{this}})" class="btn btn-primary">Eliminar entrada</button>
+          </div>
+    </form> 
     {{/if}}
   {{/each}}
-  <div id="popup" class="overlay">
-    <div id="popupBody">
-      <h2>Título de la ventana</h2>
-        <a id="cerrar" href="#">&times;</a>
-        <div class="popupContent">
-          <p>Este es el contenido</p>
-        </div>
-    </div>
-  </div>
     <form action="/usuarioinfo" method="GET" class="container-sm">
             <div class="mb-3 form-check" style="margin-top: 20px; ">
                 <button  class="btn btn-primary">Volver</button>

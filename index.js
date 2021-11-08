@@ -268,10 +268,23 @@ app.put("/modificarreserva", async function (req, res) {
   );
 });
 
-app.delete("/eliminarreverva", async function (req, res) {
-  const result = await MySQL.realizarQuery(
-    "DELETE FROM Reserva WHERE idReserva > '" + req.query.idReserva + "';"
+app.get("/eliminarreserva/:pelicula/:cine", async function (req, res) {
+  const { pelicula, cine } = req.params;
+
+  const idPeliculas = await MySQL.realizarQuery(
+    `SELECT Peliculas.idPeliculas FROM Peliculas WHERE Peliculas.nombre = "${pelicula}" `
   );
+  const idCine = await MySQL.realizarQuery(
+    `SELECT Cines.idCines FROM Cines WHERE Cines.nombre = "${cine}" `
+  );
+  const idFuncion = await MySQL.realizarQuery(
+    `SELECT Funciones.idFunciones FROM Funciones WHERE Funciones.idPeliculas = "${idPeliculas[0].idPeliculas}" AND Funciones.idCines = "${idCine[0].idCines}"`
+  );
+
+  const result = await MySQL.realizarQuery(
+    `DELETE FROM Reserva WHERE Reserva.idFunciones = "${idFuncion[0].idFunciones}" AND Reserva.idUsuario = "${sess.idUser}"`
+  );
+  res.render("cine", null);
 });
 
 app.get("/usuarioconfirmadas", async function (req, res) {
@@ -295,11 +308,21 @@ app.get("/entradaconfirmada", async function (req, res) {
 app.get("/entradareservada", async function (req, res) {
   res.render("entradareservada", null);
 });
-app.delete("/eliminarreverva", async function (req, res) {
+
+app.delete("/eliminarreserva/:pelicula/:cine", async function (req, res) {
+  console.log("Hola")
+  const { pelicula, cine } = req.params;
+  const id = await MySQL.realizarQuery(`
+    SELECT Reserva.idReserva FROM Reserva
+    JOIN Peliculas ON Peliculas.nombre = "${pelicula}"
+    JOIN Cines on Cines.nombre = "${cine}"
+    WHERE Reserva.idUsuario = ${sess.idUser};
+  `);
   const result = await MySQL.realizarQuery(
-    "DELETE FROM Reserva WHERE idReserva > '" + req.query.idReserva + "';"
+    "DELETE FROM Reserva WHERE Reserva.idReserva > '" + id[0].idReserva + "';"
   );
 });
+
 
 app.put("/modificarreserva", async function (req, res) {
   const {
@@ -336,7 +359,6 @@ app.post("/entrada/modificar/:cine/:pelicula", async function (req, res) {
   );
   //const ReservasFuncion = await MySQL.realizarQuery(`SELECT * FROM Reservas WHERE Reservas.idFunciones = "${idFuncion[0].idFunciones}"`)
   sess.funcion = idFuncion[0].idFunciones;
-  console.log(sess);
   sess.update = true;
   res.render("butacas", null);
 });
