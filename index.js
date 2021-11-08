@@ -305,6 +305,7 @@ app.post("/entrada/confirmar", async function (req, res) {
 app.get("/entradaconfirmada", async function (req, res) {
   res.render("entradaconfirmada", null);
 });
+
 app.get("/entradareservada", async function (req, res) {
   res.render("entradareservada", null);
 });
